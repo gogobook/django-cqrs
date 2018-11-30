@@ -1,13 +1,7 @@
-FROM phusion/baseimage
+FROM python:3.7.1-alpine3.8
 
-RUN apt-get update
-RUN apt-get install -y git
-RUN apt-get install -y python3 python-pip python3-dev libpq-dev postgresql-client
-RUN apt-get install -y libssl-dev
-RUN apt-get install build-essential
+RUN apk update && apk add postgresql-dev gcc musl-dev
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-ADD ./ /app/
-
-WORKDIR /app/
-
-RUN pip install -r requirements.txt
+WORKDIR /app
